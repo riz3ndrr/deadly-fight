@@ -140,9 +140,11 @@ def draw_bg():
     if display_menu:
         show_select_screen()
 
+P1DELAY = 0
+P2DELAY = 0
 
 def show_select_screen():
-    global player1_index, player2_index, fighter_2, fighter_1, display_menu, game_on
+    global player1_index, player2_index, fighter_2, fighter_1, display_menu, game_on, P1DELAY, P2DELAY
     player_names = [("The Puncher", "PNR"), 
                     ("The Stick", "STK"),
                     ("The Transformer", "TRN"),
@@ -157,26 +159,50 @@ def show_select_screen():
     game_title = BIG_FONT.render("DEADLY FIGHT", True, WHITE)
     screen.blit(game_title, (135, 70))
 
+    # get keypresses
+    key = pyg.key.get_pressed()
+
+    CHANGE_FIGHTER_DELAY = 20
+        
+
     # Buttons for player 1
-    if down_btn1.draw():
+
+    if (up_btn1.draw() or key[pyg.K_w]) and P1DELAY == 0:
         player1_index += 1
         if player1_index == len(player_names):
             player1_index = 0
-    if up_btn1.draw():
+        P1DELAY = CHANGE_FIGHTER_DELAY
+
+    if (down_btn1.draw() or key[pyg.K_s]) and P1DELAY == 0:
         if player1_index == 0:
             player1_index = len(player_names) - 1
         else:
             player1_index -= 1
+        P1DELAY = CHANGE_FIGHTER_DELAY
+
+    
+
+
     # Buttons for player 2
-    if down_btn2.draw():
+    if (up_btn2.draw() or key[pyg.K_UP]) and P2DELAY == 0:
         player2_index += 1
         if player2_index == len(player_names):
             player2_index = 0
-    if up_btn2.draw():
+        P2DELAY = CHANGE_FIGHTER_DELAY
+
+    if (down_btn2.draw() or key[pyg.K_DOWN]) and P2DELAY == 0:
         if player2_index == 0:
             player2_index = len(player_names) - 1
         else:
             player2_index -= 1
+        P2DELAY = CHANGE_FIGHTER_DELAY
+    
+    if P1DELAY != 0:
+        P1DELAY -= 1
+    
+    if P2DELAY != 0:
+        P2DELAY -= 1
+    
    # Player 1's currently selected character
     player1_title_shadow = font.render("Player 1:", True, BLACK)
     screen.blit(player1_title_shadow, (35, 285))
@@ -199,7 +225,7 @@ def show_select_screen():
     player2_name = font.render(player2[0], True, WHITE)
     screen.blit(player2_name, (630, 400))
 
-    if start_btn.draw():
+    if start_btn.draw() or key[pyg.K_SPACE]:
         fighter_1_data = extract_fighter_data(player1[1])
         fighter_2_data = extract_fighter_data(player2[1])
 

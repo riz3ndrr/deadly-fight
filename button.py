@@ -14,7 +14,6 @@ class Button():
     def draw(self):
         action = False
         pos = pyg.mouse.get_pos()
-        #print(pyg.mouse.get_pressed())
         
         if self.rect.collidepoint(pos):
             if pyg.mouse.get_pressed()[0] is True and self.clicked is False:
