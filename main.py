@@ -1,4 +1,5 @@
 import pygame as pyg
+from text import Text
 from fighter import Fighter
 from button import Button
 import ast
@@ -127,13 +128,8 @@ up_btn2 = Button(720, 350, screen, True, 'assets/images/misc/arrow.png', (100,10
 start_btn = Button(320, 200, screen, False, 'assets/images/misc/fight_btn.png', (300,150))
 
 def draw_bg():
-    
     """Draw background"""
     img = bg_image
-    # if display_menu is False:
-    #     img = bg_image
-    # else:
-    #     img = menu_image
     scaled_bg = pyg.transform.scale(img, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(scaled_bg, (0, 0))
 
@@ -154,10 +150,8 @@ def show_select_screen():
     player2 = player_names[player2_index]
 
     # title screen:
-    game_title_shadow = BIG_FONT.render("DEADLY FIGHT", True, BLACK)
-    screen.blit(game_title_shadow, (140, 75))
-    game_title = BIG_FONT.render("DEADLY FIGHT", True, WHITE)
-    screen.blit(game_title, (135, 70))
+    game_title = Text(screen, BIG_FONT, WHITE, "DEADLY FIGHT", (140, 75))
+    game_title.draw()
 
     # get keypresses
     key = pyg.key.get_pressed()
@@ -204,26 +198,20 @@ def show_select_screen():
         P2DELAY -= 1
     
    # Player 1's currently selected character
-    player1_title_shadow = font.render("Player 1:", True, BLACK)
-    screen.blit(player1_title_shadow, (35, 285))
-    player1_title = font.render("Player 1:", True, WHITE)
-    screen.blit(player1_title, (40, 280))
 
-    player1_name_shadow = font.render(player1[0], True, BLACK)
-    screen.blit(player1_name_shadow, (25, 405))
-    player1_name = font.render(player1[0], True, WHITE)
-    screen.blit(player1_name, (30, 400))
+    player1_title = Text(screen, font, WHITE, "Player 1:", (40, 280))
+    player1_title.draw()
+
+    player1_fighter_title = Text(screen, font, WHITE, player1[0], (30, 400))
+    player1_fighter_title.draw()
 
     # Player 2's currently selected character
-    player2_title_shadow = font.render("Player 2:", True, BLACK)
-    screen.blit(player2_title_shadow, (665, 285))
-    player2_title = font.render("Player 2:", True, WHITE)
-    screen.blit(player2_title, (670, 280))
+    player2_title = Text(screen, font, WHITE, "Player 2:", (670, 280))
+    player2_title.draw()
 
-    player2_name_shadow = font.render(player2[0], True, BLACK)
-    screen.blit(player2_name_shadow, (625, 405))
-    player2_name = font.render(player2[0], True, WHITE)
-    screen.blit(player2_name, (630, 400))
+    player2_title = Text(screen, font, WHITE, player2[0], (630, 400))
+    player2_title.draw()
+
 
     if start_btn.draw() or key[pyg.K_SPACE]:
         fighter_1_data = extract_fighter_data(player1[1])
@@ -237,12 +225,11 @@ def show_select_screen():
 
 
 
-def display_title(player, x):
+def display_fighter_name(player, x):
     """Display fighter names"""
-    text = font.render(player.name, True, BLACK)
-    screen.blit(text, (x + 5, 0))
-    bg_text = font.render(player.name, True, WHITE)
-    screen.blit(bg_text, (x, -5))
+    text = Text(screen, font, WHITE, player.name, (x, 0))
+    text.draw()
+
 
 def check_for_winner(fighter):
     """Check (if there is) who the winner is"""
@@ -273,15 +260,11 @@ def display_intro():
             i = 2
             INTRO_ON = False
             TEXT_ON_SCREEN_DURATION = 110
-            
-    
     
         TEXT_ON_SCREEN_DURATION -= 1
 
-        text = BIG_FONT.render(texts[i][0], True, BLACK)
-        screen.blit(text, (300, 200))
-        bg_text = BIG_FONT.render(texts[i][0], True, texts[i][1])
-        screen.blit(bg_text, (300 - 5, 200- 5))
+        text = Text(screen, BIG_FONT, texts[i][1], texts[i][0], (300,200))
+        text.draw()
 
 
 def update_score(winner_player_num):
@@ -295,7 +278,7 @@ def display_winner(winner, winner_player_num):
     global TEXT_ON_SCREEN_DURATION, INTRO_ON, ROUND_NUM, BIG_FONT, run, fighter_1, fighter_2
     texts = [[f"{winner} wins!", WHITE], ["", WHITE],[f"Player {winner_player_num} wins!", WHITE]]
 
-    if len(winner) >= 12:
+    if len(winner) >= 11:
         # font size is changed if character name too long
         used_font = MED_FONT
     else:
@@ -317,12 +300,10 @@ def display_winner(winner, winner_player_num):
             fighter_2.reset(700, True, fighter_2.data)
             ROUND_NUM += 1
         TEXT_ON_SCREEN_DURATION = 110
-            
-            
-    text = used_font.render(texts[i][0], True, BLACK)
-    screen.blit(text,  (70, 200))
-    bg_text = used_font.render(texts[i][0], True, texts[i][1])
-    screen.blit(bg_text, (70 - 5, 200 - 5))
+
+    text = Text(screen, used_font, texts[i][1], texts[i][0], (70, 200))
+    text.draw()
+    
     TEXT_ON_SCREEN_DURATION -= 1
 
 
@@ -361,8 +342,8 @@ while run:
         draw_meter_bar(fighter_2.meter, 580, 20)
 
         # Display fighter names:
-        display_title(fighter_1, 15)
-        display_title(fighter_2, SCREEN_WIDTH - 430)
+        display_fighter_name(fighter_1, 15)
+        display_fighter_name(fighter_2, SCREEN_WIDTH - 430)
 
         # Display scores
         display_score()

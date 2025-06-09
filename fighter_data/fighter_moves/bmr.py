@@ -18,8 +18,8 @@ def attack1(self):
 def attack2(self):
     self.attack_cooldown = 50
     """Heavy attack"""
-    attacking_rect = pyg.Rect(self.rect.centerx - 3 * self.rect.width, self.rect.y - 150, 7 * self.rect.width, self.rect.height * 2)
-    # pyg.draw.rect(self.surface, (0, 255, 0), attacking_rect)
+    attacking_rect = pyg.Rect(self.rect.centerx - 3 * self.rect.width, self.rect.y - 150, 7.5 * self.rect.width, self.rect.height * 2)
+    #pyg.draw.rect(self.surface, (0, 255, 0), attacking_rect)
     self.health -= 30
     if attacking_rect.colliderect(self.target.rect):
         if self.target.blocking is True:

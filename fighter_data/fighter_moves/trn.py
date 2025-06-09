@@ -40,16 +40,6 @@ def attack2(self):
         self.transformed = True
         CRASH_DMG = 20
 
-    # if attacking_rect.colliderect(self.target.rect):
-    #     if self.target.blocking is True:
-    #         self.target.health -= 30
-    #         self.target.glide_counter = 12
-    #     else:
-    #         self.target.health -= 39
-    #         self.target.glide_counter = 7
-        
-    #         self.target.hit = True
-
 def attack3(self):
     """sdfds"""
     self.attack_cooldown = 5
@@ -69,6 +59,7 @@ def misc_attack(self):
         self.transformed = False
         self.misc_attacking = False
         self.glide_counter = 20
+
     if self.glide_counter < 20:
         attacking_rect = pyg.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2.5 * self.rect.width, self.rect.height)
         # pyg.draw.rect(self.surface, (0, 255, 0), attacking_rect)
