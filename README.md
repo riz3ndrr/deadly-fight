@@ -2,14 +2,14 @@
 Run the file 'main.py'
 
 # Controls:
-  - Player 1 Controls:
+  ## Player 1 Controls:
   - WASD = Movement
   - E = Primary Attack
   - R = Heavy Attack
   - T = Misc Attack
   - F = Blocking
 
-  - Player 2 Controls:
+  ## Player 2 Controls:
   - Arrows = Movement
   - , = Primary Attack
   - . = Heavy Attack
