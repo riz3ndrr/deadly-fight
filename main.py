@@ -147,7 +147,7 @@ def show_select_screen():
                     ("The Stick", "STK"),
                     ("The Transformer", "TRN"),
                     ("The Volt", "VLT"),
-                    ("The Boomer", "BMR")]
+                    ("The Bomber", "BMR")]
     player1 = player_names[player1_index]
     player2 = player_names[player2_index]
 
